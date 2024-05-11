@@ -79,22 +79,22 @@ EOF
   echo "Detected Router Model: ${GL_MODEL}"
   if [[ ${GL_MODEL} == "ar750s"  ]]
   then
-    SD_DEV=sda
-    SD_PART=sda
-    ${SSH} root@${EDGE_ROUTER} "mount | grep /dev/sdb | while read line ; \
+    SD_DEV=sdb
+    SD_PART=sdb
+    ${SSH} root@${EDGE_ROUTER} "mount | grep /dev/sda | while read line ; \
     do echo \${line} | cut -d' ' -f1 ; \
     done | while read fs ; \
     do umount \${fs} ;  \
     done ; \
-    dd if=/dev/zero of=/dev/sdb bs=4096 count=1 ; \
-    echo \"/dev/sdb1 : start=1, type=83\" > /tmp/part.info ; \
-    sfdisk --no-reread -f /dev/sdb < /tmp/part.info ; \
+    dd if=/dev/zero of=/dev/sda bs=4096 count=1 ; \
+    echo \"/dev/sda1 : start=1, type=83\" > /tmp/part.info ; \
+    sfdisk --no-reread -f /dev/sda < /tmp/part.info ; \
     rm /tmp/part.info ; \
-    umount /dev/sdb1 ; \
-    mkfs.ext4 /dev/sdb1 ; \
+    umount /dev/sda1 ; \
+    mkfs.ext4 /dev/sda1 ; \
     mkdir -p /data/openwrt ; \
-    umount /dev/sdb1 ; \
-    mount -t ext4 /dev/sdb1 /data/openwrt"
+    umount /dev/sda1 ; \
+    mount -t ext4 /dev/sda1 /data/openwrt"
   fi
 
   ${SSH} root@${EDGE_ROUTER} "echo \"unmounting ${SD_PART} - Safe to ignore errors for non-existent mounts\" ; \

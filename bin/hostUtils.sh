@@ -255,7 +255,7 @@ kernel_arguments:
   should_exist:
     - mitigations=auto
   should_not_exist:
-    - mitigations=auto,nosmt
+  #  - mitigations=auto,nosmt
     - mitigations=off
 storage:
   files:
